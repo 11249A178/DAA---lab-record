@@ -1,0 +1,48 @@
+#include <stdio.h>
+
+#define MAX 100
+
+void firstFit(int weights[], int n, int capacity) {
+    int bin_rem[MAX];   // remaining capacity in bins
+    int bins = 0;       // number of bins used
+
+    for (int i = 0; i < n; i++) {
+        int j;
+
+        // Try to place item in an existing bin
+        for (j = 0; j < bins; j++) {
+            if (bin_rem[j] >= weights[i]) {
+                bin_rem[j] -= weights[i];
+                break;
+            }
+        }
+
+        // If no bin can accommodate item, create new bin
+        if (j == bins) {
+            bin_rem[bins] = capacity - weights[i];
+            bins++;
+        }
+    }
+
+    printf("Number of bins required: %d\n", bins);
+}
+
+int main() {
+    int n, capacity;
+    int weights[MAX];
+
+    printf("Enter number of items: ");
+    scanf("%d", &n);
+
+    printf("Enter weights of items:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &weights[i]);
+    }
+
+    printf("Enter bin capacity: ");
+    scanf("%d", &capacity);
+
+    firstFit(weights, n, capacity);
+
+    return 0;
+}
